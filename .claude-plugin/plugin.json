@@ -1,0 +1,10 @@
+{
+  "name": "visual-forge",
+  "version": "0.1.0",
+  "description": "Visual art methodology for AI-generated 2D game art — anatomy, composition, color theory, perspective, lighting, and style. Built on techniques from masters of painting, illustration, animation, and game art.",
+  "author": {
+    "name": "wion4",
+    "email": "wion4@vk.com"
+  },
+  "keywords": ["art", "visual", "concept-art", "gamedev", "2d", "illustration", "composition", "anatomy"]
+}

@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Visual Forge is available. If the user asks to draw, sketch, create concept art, design characters, create maps, or any visual 2D art task — load the visual-forge skill and use the visual-artist agent. Do not announce unless relevant."
+          }
+        ]
+      }
+    ]
+  }
+}
