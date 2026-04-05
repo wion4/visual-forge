@@ -604,10 +604,27 @@ Within a single project, maintain:
 6. **Focal point detail** — render only the area of interest
 7. **Storytelling elements** — add narrative micro-details
 
-### 10.3 Using Agents
+### 10.3 Image Generation (Pollinations.ai)
+
+For high-quality concept art, use the built-in image generator (free, no API key):
+
+```bash
+python3 ${CLAUDE_PLUGIN_ROOT}/scripts/generate_image.py generate "<prompt>" <output_path> [width] [height] [model]
+```
+
+**Models:** `flux` (default, best), `flux-realism`, `flux-anime`, `flux-3d`, `flux-pixel`, `turbo`
+
+**When to use what:**
+- **Image generation** → characters, environments, mood boards, key art, anything requiring photorealism or painterly quality
+- **SVG** → maps, UI mockups, diagrams, faction symbols, level layouts, anything requiring editability
+
+**Prompt engineering:** Apply ALL methodology from Parts 1-9 to write the prompt. A good prompt includes:
+subject + pose/anatomy + clothing + environment + lighting setup + color palette + style reference + mood + composition + quality tags.
+
+### 10.4 Using Agents
 
 This plugin provides specialized agents for different visual tasks:
 
-- **visual-artist** — general purpose 2D art creation (characters, environments, items)
+- **visual-artist** — general purpose 2D art creation (characters, environments, items) using image generation or SVG
 - **style-director** — establishes and maintains visual style guides for projects
 - **anatomy-checker** — reviews existing art for proportion and anatomy issues

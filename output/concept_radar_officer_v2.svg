@@ -1,0 +1,611 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900">
+  <defs>
+    <!-- === ГРАДИЕНТЫ === -->
+
+    <!-- Небо — пустынная дымка, тёплое сверху -->
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#d4a857"/>
+      <stop offset="35%" stop-color="#c9956e"/>
+      <stop offset="65%" stop-color="#b8845a"/>
+      <stop offset="100%" stop-color="#a07848"/>
+    </linearGradient>
+
+    <!-- Земля — песок, тёплый -->
+    <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#a08a6a"/>
+      <stop offset="100%" stop-color="#7a6545"/>
+    </linearGradient>
+
+    <!-- Кожа — тёплая, освещённая сторона -->
+    <linearGradient id="skinLit" x1="0" y1="0" x2="1" y2="0.3">
+      <stop offset="0%" stop-color="#e8c8a0"/>
+      <stop offset="100%" stop-color="#d4a878"/>
+    </linearGradient>
+
+    <!-- Кожа — теневая сторона (прохладная) -->
+    <linearGradient id="skinShadow" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#b88a68"/>
+      <stop offset="100%" stop-color="#a07858"/>
+    </linearGradient>
+
+    <!-- Форма — зелёная военная ткань -->
+    <linearGradient id="uniformLit" x1="0.3" y1="0" x2="0.8" y2="1">
+      <stop offset="0%" stop-color="#5a6a4a"/>
+      <stop offset="100%" stop-color="#4a5a3a"/>
+    </linearGradient>
+
+    <linearGradient id="uniformDark" x1="0" y1="0" x2="1" y2="0.5">
+      <stop offset="0%" stop-color="#3a4a2e"/>
+      <stop offset="100%" stop-color="#2e3d24"/>
+    </linearGradient>
+
+    <!-- Красный шарф — акцент -->
+    <linearGradient id="scarfColor" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#c43030"/>
+      <stop offset="50%" stop-color="#a82020"/>
+      <stop offset="100%" stop-color="#8a1818"/>
+    </linearGradient>
+
+    <!-- Экран планшета -->
+    <radialGradient id="screenGlow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#40ff80" stop-opacity="0.8"/>
+      <stop offset="60%" stop-color="#20a050" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#105030" stop-opacity="0.3"/>
+    </radialGradient>
+
+    <!-- Тень на земле -->
+    <radialGradient id="groundShadow" cx="0.4" cy="0.2" r="0.7">
+      <stop offset="0%" stop-color="#3a2a1a" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#3a2a1a" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Солнечный свет сверху-справа -->
+    <linearGradient id="sunLight" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fff0c0" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#fff0c0" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Волосы -->
+    <linearGradient id="hairColor" x1="0.3" y1="0" x2="0.8" y2="1">
+      <stop offset="0%" stop-color="#5a3a20"/>
+      <stop offset="100%" stop-color="#3a2010"/>
+    </linearGradient>
+
+    <!-- Ботинки -->
+    <linearGradient id="bootColor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4a3a28"/>
+      <stop offset="100%" stop-color="#3a2a1a"/>
+    </linearGradient>
+
+    <!-- === ФИЛЬТРЫ === -->
+
+    <!-- Размытие дальнего плана (атмосферная перспектива) -->
+    <filter id="bgBlur">
+      <feGaussianBlur stdDeviation="2.5"/>
+    </filter>
+
+    <!-- Среднее размытие -->
+    <filter id="mgBlur">
+      <feGaussianBlur stdDeviation="1"/>
+    </filter>
+
+    <!-- Свечение солнца -->
+    <filter id="sunGlow">
+      <feGaussianBlur stdDeviation="20"/>
+    </filter>
+
+    <!-- Тень от фигуры -->
+    <filter id="castShadowBlur">
+      <feGaussianBlur stdDeviation="4"/>
+    </filter>
+
+    <!-- Свечение экрана -->
+    <filter id="tabletGlow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Текстура песка -->
+    <filter id="sandNoise">
+      <feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves="4" stitchTiles="stitch" result="noise"/>
+      <feColorMatrix type="saturate" values="0" in="noise" result="gray"/>
+      <feBlend in="SourceGraphic" in2="gray" mode="multiply"/>
+    </filter>
+  </defs>
+
+  <!-- ============================================================ -->
+  <!-- СЛОЙ 1: ДАЛЬНИЙ ПЛАН (bg) — руины, атмосферная перспектива   -->
+  <!-- Светлее, холоднее, размыто. Da Vinci atmospheric perspective -->
+  <!-- ============================================================ -->
+  <g id="bg">
+    <!-- Небо -->
+    <rect width="1200" height="900" fill="url(#sky)"/>
+
+    <!-- Солнце — 45° сверху-справа (Рембрандтовское освещение) -->
+    <circle cx="980" cy="100" r="80" fill="#f0d080" filter="url(#sunGlow)" opacity="0.5"/>
+    <circle cx="980" cy="100" r="30" fill="#fff8e0" opacity="0.85"/>
+
+    <!-- Пылевая дымка атмосферы -->
+    <rect width="1200" height="900" fill="#c9956e" opacity="0.12"/>
+
+    <!-- Руины дальнего плана — обесцвеченные, размытые, холоднее -->
+    <g filter="url(#bgBlur)" opacity="0.45">
+      <!-- Разрушенный минарет слева -->
+      <rect x="100" y="200" width="22" height="260" fill="#918578"/>
+      <rect x="95" y="195" width="32" height="12" fill="#847868"/>
+      <rect x="108" y="240" width="14" height="35" fill="#b8a488" opacity="0.5"/>
+
+      <!-- Блок зданий -->
+      <rect x="180" y="310" width="75" height="150" fill="#8a8070" rx="2"/>
+      <rect x="195" y="290" width="35" height="20" fill="#7a7060"/>
+      <rect x="190" y="330" width="7" height="9" fill="#605548"/>
+      <rect x="210" y="330" width="7" height="9" fill="#605548"/>
+      <rect x="230" y="330" width="7" height="9" fill="#605548"/>
+      <!-- Разрушенная секция -->
+      <polygon points="225,360 260,385 260,460 225,460" fill="#b8a488" opacity="0.4"/>
+
+      <!-- Купол повреждённой мечети -->
+      <ellipse cx="420" cy="340" rx="38" ry="22" fill="#8a8070"/>
+      <rect x="382" y="340" width="76" height="120" fill="#8a8070"/>
+      <ellipse cx="438" cy="335" rx="14" ry="10" fill="#b8a488" opacity="0.5"/>
+
+      <!-- Здание справа на заднем плане -->
+      <rect x="920" y="290" width="65" height="170" fill="#8a8070"/>
+      <rect x="955" y="270" width="28" height="190" fill="#7a7060"/>
+      <!-- Антенна -->
+      <line x1="969" y1="270" x2="969" y2="235" stroke="#706860" stroke-width="2"/>
+      <line x1="960" y1="245" x2="978" y2="245" stroke="#706860" stroke-width="1.5"/>
+
+      <!-- Сломанная радарная тарелка — нарративная деталь -->
+      <rect x="1040" y="320" width="7" height="70" fill="#7a7a78"/>
+      <path d="M1025,320 Q1043,290 1061,320" fill="none" stroke="#7a7a78" stroke-width="2.5"/>
+    </g>
+
+    <!-- Атмосферная дымка между BG и MG (воздушная перспектива) -->
+    <rect width="1200" height="560" fill="#c9a070" opacity="0.1"/>
+  </g>
+
+  <!-- ============================================================ -->
+  <!-- СЛОЙ 2: СРЕДНИЙ ПЛАН (mg) — грузовик РЛС, строения          -->
+  <!-- Средняя детализация, слегка размыто                          -->
+  <!-- ============================================================ -->
+  <g id="mg">
+    <!-- Земля -->
+    <rect x="0" y="555" width="1200" height="345" fill="url(#ground)"/>
+    <rect x="0" y="555" width="1200" height="345" fill="#a08a6a" opacity="0.2"/>
+
+    <!-- Полуразрушенное здание слева (средний план) -->
+    <g opacity="0.8" filter="url(#mgBlur)">
+      <rect x="20" y="360" width="130" height="240" fill="#7a6a52"/>
+      <rect x="20" y="360" width="130" height="12" fill="#6a5a42"/>
+      <!-- Окна — выбитые -->
+      <rect x="40" y="390" width="11" height="14" fill="#4a3a2a"/>
+      <rect x="70" y="390" width="11" height="14" fill="#4a3a2a"/>
+      <rect x="100" y="390" width="11" height="14" fill="#4a3a2a"/>
+      <rect x="40" y="425" width="11" height="14" fill="#4a3a2a"/>
+      <!-- Обгоревшее окно — следы боя -->
+      <rect x="70" y="425" width="16" height="18" fill="#3a2a1a"/>
+      <path d="M68,443 L74,425 L86,425 L90,443" fill="#2a1a0a" opacity="0.5"/>
+      <!-- Следы пуль -->
+      <circle cx="55" cy="460" r="1.5" fill="#5a4a3a"/>
+      <circle cx="59" cy="463" r="1" fill="#5a4a3a"/>
+      <circle cx="52" cy="466" r="1.2" fill="#5a4a3a"/>
+      <!-- Развалины у основания -->
+      <polygon points="20,600 45,575 90,585 150,570 160,600" fill="#6a5a42"/>
+    </g>
+
+    <!-- Разрушенная стена справа -->
+    <g opacity="0.8" filter="url(#mgBlur)">
+      <rect x="870" y="390" width="140" height="210" fill="#7a6a55"/>
+      <polygon points="870,390 935,350 1010,390" fill="#6a5a45"/>
+      <polygon points="935,350 1010,390 1010,370" fill="#b8a488" opacity="0.35"/>
+      <!-- Арматура -->
+      <line x1="975" y1="375" x2="990" y2="355" stroke="#5a5a58" stroke-width="2"/>
+      <line x1="985" y1="380" x2="1005" y2="360" stroke="#5a5a58" stroke-width="1.5"/>
+      <!-- Окна -->
+      <rect x="890" y="420" width="11" height="14" fill="#4a3a2a"/>
+      <rect x="920" y="420" width="11" height="14" fill="#4a3a2a"/>
+    </g>
+
+    <!-- === ГРУЗОВИК РЛС (средний план, слева от персонажа) === -->
+    <!-- Ведущая линия: кузов грузовика → к персонажу -->
+    <g transform="translate(380, 470)" opacity="0.85">
+      <!-- Кузов -->
+      <rect x="0" y="10" width="120" height="55" rx="3" fill="#5a6050"/>
+      <rect x="0" y="10" width="120" height="8" fill="#4a5040"/>
+      <!-- Кабина -->
+      <rect x="-40" y="18" width="45" height="42" rx="3" fill="#4a5545"/>
+      <rect x="-35" y="22" width="18" height="14" rx="1" fill="#6a7a80" opacity="0.6"/>
+      <!-- Радарная антенна на крыше -->
+      <rect x="45" y="-25" width="4" height="35" fill="#6a6a68"/>
+      <ellipse cx="47" cy="-25" rx="25" ry="8" fill="#5a5a58"/>
+      <ellipse cx="47" cy="-25" rx="25" ry="8" fill="none" stroke="#707068" stroke-width="1"/>
+      <!-- Кабели -->
+      <path d="M47,-17 Q60,0 55,10" fill="none" stroke="#3a3a38" stroke-width="1.5"/>
+      <!-- Колёса -->
+      <circle cx="15" cy="70" r="10" fill="#3a3530"/>
+      <circle cx="15" cy="70" r="6" fill="#2a2520"/>
+      <circle cx="95" cy="70" r="10" fill="#3a3530"/>
+      <circle cx="95" cy="70" r="6" fill="#2a2520"/>
+      <!-- Маркировка — звезда -->
+      <polygon points="60,30 63,38 72,38 65,43 68,52 60,47 52,52 55,43 48,38 57,38" fill="#6a7a5a" opacity="0.5"/>
+      <!-- Пыль на корпусе -->
+      <rect x="0" y="50" width="120" height="15" fill="#a09070" opacity="0.2" rx="2"/>
+    </g>
+
+    <!-- Дорожка / следы от грузовика — ведущая линия к персонажу -->
+    <path d="M340,595 Q500,585 650,580 Q720,578 760,580" fill="none" stroke="#8a7a5a" stroke-width="2" opacity="0.4" stroke-dasharray="8,4"/>
+    <path d="M340,605 Q500,595 650,590 Q720,588 760,590" fill="none" stroke="#8a7a5a" stroke-width="2" opacity="0.3" stroke-dasharray="8,4"/>
+
+    <!-- Сгоревшая машина на заднем плане -->
+    <g transform="translate(180, 525)" opacity="0.65" filter="url(#mgBlur)">
+      <rect x="0" y="8" width="50" height="22" rx="3" fill="#5a5550"/>
+      <rect x="5" y="0" width="25" height="12" rx="2" fill="#4a4540"/>
+      <rect x="30" y="3" width="20" height="18" fill="#3a3028"/>
+      <circle cx="10" cy="33" r="7" fill="#3a3530"/>
+      <circle cx="40" cy="33" r="7" fill="#3a3530"/>
+      <ellipse cx="35" cy="12" rx="10" ry="7" fill="#2a2018" opacity="0.4"/>
+    </g>
+  </g>
+
+  <!-- ============================================================ -->
+  <!-- СЛОЙ 3: ПЕРЕДНИЙ ПЛАН (fg) — персонаж + ближние объекты     -->
+  <!-- Максимальный контраст, тёплые + резкие детали               -->
+  <!-- ============================================================ -->
+  <g id="fg">
+
+    <!-- === ТЕНЬ НА ЗЕМЛЕ — заземляет фигуру === -->
+    <!-- Cast shadow: направление от солнца (верх-право → тень падает влево-вниз) -->
+    <!-- Веришагин: честная документальность; тень показывает время суток -->
+    <ellipse cx="700" cy="795" rx="120" ry="25" fill="url(#groundShadow)"
+             transform="skewX(-15)" filter="url(#castShadowBlur)"/>
+
+    <!-- === ВЕЩМЕШОК на земле — нарративная деталь (не распаковала, только прибыла) === -->
+    <g transform="translate(645, 740)">
+      <!-- Основное тело сумки -->
+      <ellipse cx="0" cy="15" rx="32" ry="18" fill="#6a6050"/>
+      <ellipse cx="0" cy="10" rx="28" ry="14" fill="#7a7060"/>
+      <!-- Лямки -->
+      <path d="M-15,5 Q-20,-5 -10,-10" fill="none" stroke="#5a5040" stroke-width="3"/>
+      <path d="M15,5 Q20,-5 10,-10" fill="none" stroke="#5a5040" stroke-width="3"/>
+      <!-- Клапан -->
+      <ellipse cx="0" cy="5" rx="22" ry="8" fill="#686050"/>
+      <!-- Пряжка -->
+      <rect x="-3" y="2" width="6" height="4" rx="1" fill="#8a8070"/>
+      <!-- Бирка / нашивка -->
+      <rect x="8" y="8" width="12" height="7" rx="1" fill="#5a6048"/>
+      <!-- Пыли нет — сумка чистая (только прибыла) -->
+    </g>
+
+    <!-- ============================================================ -->
+    <!-- ПЕРСОНАЖ: Молодая женщина, оператор РЛС                     -->
+    <!-- Пропорции: 7.5 голов, стандартная система                     -->
+    <!-- Голова = 72px. Общая высота фигуры = 540px                   -->
+    <!-- Позиция: Golden ratio φ ≈ x:741, y:основание 790             -->
+    <!--                                                               -->
+    <!-- КОНТРАПОСТ: вес на правой ноге (зрителя — левой персонажа)    -->
+    <!-- Правое бедро выше, левое плечо выше → S-кривая               -->
+    <!-- Жестовая линия: S-curve (динамичный, но расслабленный)        -->
+    <!--                                                               -->
+    <!-- ГОЛОВА 1: y250-322 (корона → подбородок)                      -->
+    <!-- ГОЛОВА 2: y322-394 (подбородок → линия сосков)                -->
+    <!-- ГОЛОВА 3: y394-466 (→ пупок, ЛОКТИ здесь)                     -->
+    <!-- ГОЛОВА 4: y466-538 (→ промежность)                            -->
+    <!-- ГОЛОВА 5: y538-610 (→ середина бедра, КИСТИ здесь)            -->
+    <!-- ГОЛОВА 6: y610-682 (→ ниже колена)                            -->
+    <!-- ГОЛОВА 7: y682-754 (→ середина голени)                        -->
+    <!-- ГОЛОВА 7.5: y754-790 (→ подошва)                              -->
+    <!-- ============================================================ -->
+    <g id="character" transform="translate(741, 0)">
+
+      <!-- *** GESTURE LINE (S-curve) — невидимая, для справки *** -->
+      <!-- path d="M0,250 Q15,400 -5,540 Q-15,650 5,790" — S-curve -->
+
+      <!-- === НОГИ === -->
+      <!-- Правая нога (опорная, вес на ней, прямая) -->
+      <!-- Бедро: промежность(538) → колено(650) -->
+      <polygon points="8,538 25,538 22,650 5,650" fill="url(#uniformLit)"/>
+      <!-- Колено — структура кости видна -->
+      <ellipse cx="14" cy="650" rx="12" ry="8" fill="#4a5a3a"/>
+      <!-- Голень: колено(650) → ботинок(754) -->
+      <polygon points="5,650 22,650 20,754 3,754" fill="url(#uniformDark)"/>
+      <!-- Ботинок правый -->
+      <path d="M0,754 L24,754 L28,770 Q28,790 14,790 Q-4,790 -4,775 Z" fill="url(#bootColor)"/>
+      <!-- Подошва и шнуровка -->
+      <line x1="5" y1="764" x2="20" y2="764" stroke="#5a4a38" stroke-width="1"/>
+      <line x1="6" y1="770" x2="19" y2="770" stroke="#5a4a38" stroke-width="1"/>
+      <rect x="-4" y="785" width="32" height="5" rx="2" fill="#2a1a0a"/>
+
+      <!-- Левая нога (расслабленная, слегка согнута, отведена) -->
+      <!-- Контрапост: левое бедро ниже, нога чуть отставлена -->
+      <polygon points="-25,544 -8,544 -14,655 -30,655" fill="url(#uniformLit)"/>
+      <!-- Колено левое — слегка согнуто -->
+      <ellipse cx="-22" cy="655" rx="11" ry="7" fill="#4a5a3a"/>
+      <!-- Голень -->
+      <polygon points="-30,655 -14,655 -16,756 -32,758" fill="url(#uniformDark)"/>
+      <!-- Ботинок левый (носок чуть развёрнут) -->
+      <path d="M-36,758 L-12,756 L-8,772 Q-10,792 -24,792 Q-40,790 -40,775 Z" fill="url(#bootColor)"/>
+      <rect x="-40" y="786" width="32" height="5" rx="2" fill="#2a1a0a"/>
+
+      <!-- === ТОРС === -->
+      <!-- Рубашка/куртка военная форма -->
+      <!-- Плечи: ~1.75 головов ширина = 126px. Контрапост: правое плечо чуть ниже -->
+
+      <!-- Основной торс — трапеция (плечи → талия) -->
+      <!-- Плечи y≈330, талия y≈466 -->
+      <polygon points="-55,336 65,330 50,470 -40,474" fill="url(#uniformLit)"/>
+
+      <!-- Теневая сторона торса (левая от зрителя = теневая) -->
+      <polygon points="-55,336 5,333 -5,474 -40,474" fill="url(#uniformDark)"/>
+
+      <!-- Грудь — объём через тональные переходы -->
+      <ellipse cx="25" cy="370" rx="28" ry="20" fill="#566648" opacity="0.3"/>
+
+      <!-- Воротник -->
+      <path d="M-15,326 L5,318 L25,326 L20,338 L5,330 L-10,338 Z" fill="#4a5a3a"/>
+
+      <!-- Карманы на груди -->
+      <rect x="20" y="370" width="24" height="20" rx="2" fill="#4e5e3e" stroke="#3a4a2e" stroke-width="0.5"/>
+      <rect x="20" y="370" width="24" height="5" rx="1" fill="#465638"/>
+      <rect x="-30" y="375" width="22" height="18" rx="2" fill="#3e4e30" stroke="#2e3d24" stroke-width="0.5"/>
+      <rect x="-30" y="375" width="22" height="5" rx="1" fill="#364630"/>
+
+      <!-- Пояс — талия y≈466 -->
+      <rect x="-42" y="462" width="94" height="10" rx="2" fill="#4a4030"/>
+      <!-- Пряжка -->
+      <rect x="0" y="463" width="10" height="8" rx="1" fill="#8a7a60"/>
+      <rect x="2" y="465" width="6" height="4" rx="0.5" fill="#a09070"/>
+
+      <!-- Нижняя часть куртки / бедро -->
+      <polygon points="-42,472 52,468 30,540 -28,544" fill="url(#uniformLit)"/>
+      <polygon points="-42,472 5,470 -5,544 -28,544" fill="url(#uniformDark)"/>
+
+      <!-- Погоны -->
+      <rect x="50" y="328" width="18" height="8" rx="1" fill="#5a6a4a" transform="rotate(-8, 59, 332)"/>
+      <rect x="53" y="330" width="4" height="4" rx="0.5" fill="#8a9a70" transform="rotate(-8, 55, 332)"/>
+      <rect x="-58" y="334" width="18" height="8" rx="1" fill="#4a5a3a" transform="rotate(5, -49, 338)"/>
+
+      <!-- === КРАСНЫЙ ШАРФ — АКЦЕНТ 10%, фокальная точка === -->
+      <!-- Селективная насыщенность: шарф — единственный насыщенный элемент -->
+      <!-- Гражданская жизнь, личная вещь, якорь к прошлому -->
+      <path d="M-12,322 Q5,315 22,322 Q18,340 20,365 L15,365 Q14,345 16,328 Q5,323 -8,328 Q-6,345 -8,380 L-14,378 Q-10,345 -12,322 Z" fill="url(#scarfColor)"/>
+      <!-- Свисающий конец шарфа — развевается от ветра (динамика) -->
+      <path d="M-14,378 Q-30,400 -45,420 Q-50,428 -42,430 Q-35,425 -20,405 Q-10,392 -8,380 Z" fill="#c43030"/>
+      <path d="M-42,430 Q-55,438 -58,445 Q-56,448 -50,445 Q-44,438 -42,430 Z" fill="#a82020"/>
+      <!-- Тень на шарфе -->
+      <path d="M-45,420 Q-50,428 -42,430 Q-44,438 -50,445" fill="none" stroke="#7a1010" stroke-width="1" opacity="0.5"/>
+      <!-- Складки шарфа на шее -->
+      <path d="M-5,330 Q0,335 5,330" fill="none" stroke="#8a1818" stroke-width="0.8" opacity="0.6"/>
+      <path d="M8,335 Q12,340 16,335" fill="none" stroke="#8a1818" stroke-width="0.8" opacity="0.6"/>
+
+      <!-- === РУКИ === -->
+
+      <!-- ПРАВАЯ РУКА (освещённая) — держит планшет -->
+      <!-- Плечо → локоть (y330 → y460, elbow at waist) -->
+      <!-- Рука согнута, держит планшет перед собой -->
+      <polygon points="52,334 68,338 62,420 48,416" fill="url(#uniformLit)"/>
+      <!-- Локоть — суставная структура -->
+      <ellipse cx="56" cy="420" rx="10" ry="8" fill="#4a5a3a"/>
+      <!-- Предплечье — согнуто вперёд, держит планшет -->
+      <polygon points="48,416 62,420 50,480 36,476" fill="url(#uniformLit)"/>
+      <!-- Рукав закатан — виден край -->
+      <path d="M48,416 Q55,412 62,420" fill="none" stroke="#3a4a2e" stroke-width="1.5"/>
+      <!-- Кисть правая — на планшете -->
+      <path d="M36,476 Q32,482 34,492 L50,488 Q52,480 50,476 Z" fill="url(#skinLit)"/>
+      <!-- Пальцы на планшете -->
+      <path d="M34,492 Q33,496 36,498 L42,496 L44,490" fill="#d4a878"/>
+      <path d="M42,496 Q44,500 48,498 L50,492 L48,488" fill="#d4a878"/>
+
+      <!-- ПЛАНШЕТ с радарным интерфейсом -->
+      <g transform="translate(28, 478)">
+        <rect x="0" y="0" width="36" height="26" rx="2" fill="#2a2a2a"/>
+        <rect x="2" y="2" width="32" height="22" rx="1" fill="#0a2a15"/>
+        <!-- Радарное развёртывание -->
+        <circle cx="18" cy="13" r="9" fill="none" stroke="#20a050" stroke-width="0.5" opacity="0.6"/>
+        <circle cx="18" cy="13" r="6" fill="none" stroke="#20a050" stroke-width="0.5" opacity="0.4"/>
+        <circle cx="18" cy="13" r="3" fill="none" stroke="#20a050" stroke-width="0.5" opacity="0.3"/>
+        <!-- Луч развёртки -->
+        <line x1="18" y1="13" x2="26" y2="7" stroke="#40ff80" stroke-width="1" opacity="0.7"/>
+        <!-- Точки-метки на радаре -->
+        <circle cx="22" cy="9" r="1.2" fill="#40ff80" opacity="0.8"/>
+        <circle cx="14" cy="16" r="0.8" fill="#40ff80" opacity="0.5"/>
+        <circle cx="24" cy="15" r="1" fill="#ff4040" opacity="0.7"/>
+        <!-- Текст интерфейса -->
+        <text x="3" y="22" font-size="2.5" fill="#20a050" opacity="0.5" font-family="monospace">СЕКТОР 7-К</text>
+        <!-- Свечение экрана -->
+        <rect x="2" y="2" width="32" height="22" rx="1" fill="url(#screenGlow)" opacity="0.15" filter="url(#tabletGlow)"/>
+      </g>
+
+      <!-- ЛЕВАЯ РУКА (теневая сторона) — опущена вдоль тела -->
+      <!-- Плечо → локоть -->
+      <polygon points="-55,340 -42,336 -46,460 -58,456" fill="url(#uniformDark)"/>
+      <!-- Локоть -->
+      <ellipse cx="-52" cy="460" rx="9" ry="7" fill="#2e3d24"/>
+      <!-- Предплечье — опущено, кисть у mid-thigh (y~570) -->
+      <polygon points="-58,456 -46,460 -48,555 -60,550" fill="url(#uniformDark)"/>
+      <!-- Край рукава -->
+      <path d="M-60,550 Q-54,548 -48,555" fill="none" stroke="#2e3d24" stroke-width="1.5"/>
+      <!-- Кисть левая — расслаблена, слегка сжата -->
+      <path d="M-60,550 Q-64,560 -62,572 Q-58,578 -52,575 Q-48,568 -48,555 Z" fill="url(#skinShadow)"/>
+      <!-- Пальцы -->
+      <path d="M-62,572 Q-64,577 -61,580 Q-57,579 -55,575" fill="#a07858" opacity="0.8"/>
+
+      <!-- === ГОЛОВА === -->
+      <!-- Лицо: глаза по центру высоты головы, нос 3/4, рот 1/3 от носа до подбородка -->
+      <!-- Голова y250-322, центр y286, нос y304, рот y310 -->
+
+      <!-- Волосы — тёмно-каштановые, собраны, военная причёска -->
+      <ellipse cx="3" cy="268" rx="30" ry="26" fill="url(#hairColor)"/>
+      <!-- Пучок сзади -->
+      <ellipse cx="-12" cy="258" rx="14" ry="10" fill="#3a2010"/>
+
+      <!-- Форма головы / лицо -->
+      <ellipse cx="5" cy="285" rx="25" ry="32" fill="url(#skinLit)"/>
+
+      <!-- Теневая сторона лица (Рембрандтовский треугольник — свет справа, тень слева) -->
+      <path d="M5,253 Q-15,265 -20,290 Q-18,310 -8,322 Q5,320 5,310 Q-10,300 -10,285 Q-8,270 5,258 Z" fill="url(#skinShadow)" opacity="0.55"/>
+
+      <!-- Рембрандтовский треугольник на теневой щеке -->
+      <polygon points="-10,296 -4,290 -6,300" fill="#d4a878" opacity="0.35"/>
+
+      <!-- Волосы — передняя часть, чёлка -->
+      <path d="M-22,270 Q-15,252 5,248 Q25,252 30,268 Q25,262 15,258 Q5,255 -5,258 Q-15,262 -22,270 Z" fill="url(#hairColor)"/>
+      <!-- Выбившаяся прядь — ветер -->
+      <path d="M-22,272 Q-30,280 -28,290" fill="none" stroke="#4a2a15" stroke-width="2" stroke-linecap="round"/>
+
+      <!-- Глаза — на вертикальном центре головы (y286) -->
+      <!-- Расстояние между глазами = ширина одного глаза -->
+      <!-- Правый глаз (освещённый) -->
+      <ellipse cx="15" cy="286" rx="5" ry="3" fill="#fff8f0"/>
+      <circle cx="16" cy="286" r="2.5" fill="#4a6048"/>
+      <circle cx="16.5" cy="285.5" r="1.2" fill="#1a1a1a"/>
+      <circle cx="17.5" cy="284.5" r="0.5" fill="#ffffff" opacity="0.8"/>
+      <!-- Бровь правая -->
+      <path d="M9,281 Q15,278 22,280" fill="none" stroke="#3a2010" stroke-width="1.5" stroke-linecap="round"/>
+
+      <!-- Левый глаз (в тени, менее контрастный) -->
+      <ellipse cx="-6" cy="287" rx="4.5" ry="2.8" fill="#e8d8c0"/>
+      <circle cx="-5" cy="287" r="2.2" fill="#4a6048"/>
+      <circle cx="-4.5" cy="286.5" r="1.1" fill="#1a1a1a"/>
+      <!-- Бровь левая — чуть приподнята (выражение удивления/осознания) -->
+      <path d="M-12,281 Q-6,277 0,280" fill="none" stroke="#3a2010" stroke-width="1.3" stroke-linecap="round"/>
+
+      <!-- Нос — 3/4 mark (y304) -->
+      <path d="M5,290 L3,302 Q0,306 5,307 Q10,306 8,302 Z" fill="#d4a878" opacity="0.5"/>
+      <!-- Тень под носом -->
+      <path d="M0,306 Q5,310 10,306" fill="none" stroke="#a08060" stroke-width="0.8" opacity="0.5"/>
+
+      <!-- Рот — 1/3 между носом и подбородком (y312) -->
+      <path d="M-2,312 Q5,314 12,312" fill="none" stroke="#b08060" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M0,313 Q5,316 10,313" fill="none" stroke="#c09070" stroke-width="0.6" opacity="0.5"/>
+
+      <!-- Подбородок — y322 -->
+      <path d="M-5,318 Q5,324 15,318" fill="none" stroke="#c0a080" stroke-width="0.5" opacity="0.3"/>
+
+      <!-- Уши — видно одно правое (от брови до носа) -->
+      <ellipse cx="28" cy="292" rx="5" ry="9" fill="#d4a878"/>
+      <ellipse cx="28" cy="292" rx="3" ry="6" fill="#c4988a" opacity="0.4"/>
+
+      <!-- === НАУШНИКИ на шее (ещё не на службе) === -->
+      <path d="M-20,318 Q-25,325 -22,335" fill="none" stroke="#2a2a2a" stroke-width="4" stroke-linecap="round"/>
+      <path d="M22,316 Q28,325 25,335" fill="none" stroke="#2a2a2a" stroke-width="4" stroke-linecap="round"/>
+      <!-- Дуга наушников -->
+      <path d="M-22,335 Q-15,345 5,346 Q25,345 25,335" fill="none" stroke="#3a3a3a" stroke-width="3"/>
+      <!-- Подушки наушников -->
+      <ellipse cx="-22" cy="335" rx="6" ry="8" fill="#2a2a2a"/>
+      <ellipse cx="-22" cy="335" rx="4" ry="6" fill="#3a3a3a"/>
+      <ellipse cx="25" cy="335" rx="6" ry="8" fill="#2a2a2a"/>
+      <ellipse cx="25" cy="335" rx="4" ry="6" fill="#3a3a3a"/>
+      <!-- Микрофон -->
+      <line x1="-22" y1="343" x2="-18" y2="350" stroke="#2a2a2a" stroke-width="2"/>
+      <circle cx="-17" cy="352" r="3" fill="#3a3a3a"/>
+
+      <!-- Направление взгляда: влево → к руинам (момент осознания) -->
+      <!-- Глаза повёрнуты слегка влево — зрачки смещены -->
+
+      <!-- === ДЕТАЛИ ФОРМЫ === -->
+      <!-- Нарукавный шеврон на правом плече -->
+      <g transform="translate(52, 348) rotate(-8)">
+        <polygon points="0,0 12,0 10,14 2,14" fill="#4a5a3a" stroke="#6a7a5a" stroke-width="0.5"/>
+        <!-- Символ — молния (радиовойска) -->
+        <polyline points="5,3 7,6 5,7 8,12" fill="none" stroke="#a0b090" stroke-width="1"/>
+      </g>
+
+      <!-- Планка с именем на груди -->
+      <rect x="22" y="358" width="20" height="6" rx="1" fill="#3a4a2e" stroke="#5a6a4a" stroke-width="0.3"/>
+      <text x="24" y="363" font-size="3" fill="#8a9a7a" font-family="monospace">КОЗЛОВА</text>
+
+    </g>
+    <!-- Конец персонажа -->
+
+    <!-- === ПЫЛЬНЫЕ ВИХРИ на переднем плане (атмосфера) === -->
+    <ellipse cx="200" cy="800" rx="80" ry="15" fill="#a09070" opacity="0.15"/>
+    <ellipse cx="1000" cy="780" rx="60" ry="12" fill="#a09070" opacity="0.1"/>
+
+    <!-- === СЛЕДЫ БОТИНОК на песке (только прибыла) === -->
+    <g opacity="0.3">
+      <ellipse cx="760" cy="800" rx="8" ry="3" fill="#6a5540"/>
+      <ellipse cx="745" cy="810" rx="8" ry="3" fill="#6a5540"/>
+      <ellipse cx="728" cy="800" rx="8" ry="3" fill="#6a5540"/>
+      <ellipse cx="712" cy="810" rx="7" ry="2.5" fill="#6a5540" opacity="0.7"/>
+    </g>
+
+    <!-- Солнечный свет — заполняющий, сверху-справа -->
+    <rect width="1200" height="900" fill="url(#sunLight)"/>
+
+  </g>
+
+  <!-- ============================================================ -->
+  <!-- СЛОЙ: АННОТАЦИИ — дизайн-заметки                            -->
+  <!-- ============================================================ -->
+  <g id="annotations" opacity="0.7">
+    <!-- Пропорционная сетка — 7.5 голов -->
+    <g stroke="#e04040" stroke-width="0.5" stroke-dasharray="4,4" opacity="0.25">
+      <line x1="680" y1="250" x2="810" y2="250"/><!-- Корона -->
+      <line x1="680" y1="322" x2="810" y2="322"/><!-- Подбородок — голова 1 -->
+      <line x1="680" y1="394" x2="810" y2="394"/><!-- Голова 2 -->
+      <line x1="680" y1="466" x2="810" y2="466"/><!-- Голова 3 / пупок -->
+      <line x1="680" y1="538" x2="810" y2="538"/><!-- Голова 4 / промежность -->
+      <line x1="680" y1="610" x2="810" y2="610"/><!-- Голова 5 / середина бедра -->
+      <line x1="680" y1="682" x2="810" y2="682"/><!-- Голова 6 -->
+      <line x1="680" y1="754" x2="810" y2="754"/><!-- Голова 7 -->
+      <line x1="680" y1="790" x2="810" y2="790"/><!-- Голова 7.5 / ступня -->
+    </g>
+
+    <!-- Подписи к пропорциям -->
+    <g font-size="7" fill="#e04040" font-family="monospace" opacity="0.35">
+      <text x="812" y="253">1 — корона</text>
+      <text x="812" y="325">2 — подбородок</text>
+      <text x="812" y="397">3 — соски</text>
+      <text x="812" y="469">4 — пупок/локти</text>
+      <text x="812" y="541">5 — промежность</text>
+      <text x="812" y="613">6 — середина бедра/кисти</text>
+      <text x="812" y="685">7 — ниже колена</text>
+      <text x="812" y="757">7.5 — голень</text>
+      <text x="812" y="793">подошва</text>
+    </g>
+
+    <!-- Golden ratio линия -->
+    <line x1="741" y1="0" x2="741" y2="900" stroke="#d4a040" stroke-width="0.5" stroke-dasharray="8,6" opacity="0.2"/>
+    <text x="743" y="15" font-size="6" fill="#d4a040" opacity="0.3" font-family="monospace">φ = 741px</text>
+
+    <!-- Rule of thirds — горизонт -->
+    <line x1="0" y1="560" x2="1200" y2="560" stroke="#4080d0" stroke-width="0.5" stroke-dasharray="6,4" opacity="0.15"/>
+    <text x="10" y="555" font-size="6" fill="#4080d0" opacity="0.25" font-family="monospace">горизонт — 1/3 снизу</text>
+
+    <!-- Заметка: направление света -->
+    <g transform="translate(1100, 50)" opacity="0.3">
+      <line x1="0" y1="0" x2="-30" y2="25" stroke="#f0d080" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+      <text x="-50" y="-5" font-size="6" fill="#f0d080" font-family="monospace">свет 45°</text>
+    </g>
+
+    <!-- Цветовая палитра -->
+    <g transform="translate(20, 830)">
+      <text x="0" y="0" font-size="7" fill="#ffffff" font-family="monospace" opacity="0.5">ПАЛИТРА:</text>
+      <rect x="0" y="5" width="14" height="10" fill="#a08a6a" rx="1"/><text x="17" y="13" font-size="5" fill="#ccc" opacity="0.5" font-family="monospace">60% песок #a08a6a</text>
+      <rect x="115" y="5" width="14" height="10" fill="#4a5a3a" rx="1"/><text x="132" y="13" font-size="5" fill="#ccc" opacity="0.5" font-family="monospace">30% форма #4a5a3a</text>
+      <rect x="235" y="5" width="14" height="10" fill="#c43030" rx="1"/><text x="252" y="13" font-size="5" fill="#ccc" opacity="0.5" font-family="monospace">10% шарф #c43030</text>
+    </g>
+
+    <!-- Нарративные заметки -->
+    <g font-size="5.5" fill="#ffffff" font-family="monospace" opacity="0.3">
+      <text x="600" y="748" transform="rotate(-5, 600, 748)">← вещмешок: не распаковала</text>
+      <text x="640" y="380">← шарф: гражданская жизнь</text>
+      <text x="775" y="500">← планшет: радар</text>
+      <text x="660" y="345">← наушники на шее</text>
+      <text x="580" y="290">← взгляд к руинам</text>
+      <text x="770" y="365" transform="rotate(-8, 770, 365)">← чистая форма vs пыль</text>
+    </g>
+  </g>
+
+  <!-- ============================================================ -->
+  <!-- ПОДПИСЬ                                                       -->
+  <!-- ============================================================ -->
+  <text x="1190" y="895" text-anchor="end" font-size="5" fill="#ffffff" opacity="0.25" font-family="monospace">
+    concept_radar_officer_v2 | visual-forge methodology | 7.5 голов | Рембрандт | φ-композиция
+  </text>
+
+</svg>

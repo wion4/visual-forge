@@ -81,10 +81,46 @@ Before delivering art, verify:
 - [ ] Atmospheric perspective creates depth
 - [ ] Palette limited to defined colors (no random hues)
 
+## Image Generation via Pollinations.ai
+
+For photorealistic or high-quality concept art, use the image generation script instead of SVG:
+
+```bash
+python3 ${CLAUDE_PLUGIN_ROOT}/scripts/generate_image.py generate "<prompt>" <output_path> [width] [height] [model]
+```
+
+**Available models:**
+- `flux` — best quality, default
+- `flux-realism` — photorealistic
+- `flux-anime` — anime style
+- `flux-3d` — 3D render style
+- `flux-pixel` — pixel art
+
+**Free, no API key needed.** Use this for character concepts, environment art, mood boards.
+Use SVG only for maps, UI mockups, diagrams, faction symbols — things that need to be editable.
+
+**Prompt engineering is critical.** Apply ALL methodology knowledge to write the prompt:
+- Specify lighting setup (e.g., "Rembrandt lighting from upper right")
+- Specify composition (e.g., "golden ratio placement, rule of thirds horizon")
+- Specify color palette (e.g., "warm desert palette: ochre, olive green, with red scarf accent")
+- Specify style reference (e.g., "concept art style, Yoji Shinkawa influence")
+- Specify anatomy (e.g., "correct 7.5 head proportions, contrapposto stance")
+- Specify atmosphere (e.g., "atmospheric perspective, dusty haze, warm sunlight")
+- Include narrative details (e.g., "clean uniform contrasting with dusty ruins — just arrived")
+
+**Prompt structure:**
+```
+[Subject description], [pose and anatomy], [clothing and equipment details],
+[environment], [lighting], [color palette], [style], [mood/atmosphere],
+[composition notes], [technical: concept art, detailed, high quality]
+```
+
 ## Output
 
 Always deliver:
-1. The art file (SVG or HTML)
-2. Design rationale — WHY these choices (in user's language)
-3. Palette table with hex codes and roles
-4. Methodology references — which techniques from SKILL.md were applied
+1. The art file (generated image or SVG)
+2. The full prompt used for generation (so user can iterate)
+3. Design rationale — WHY these choices (in user's language)
+4. Palette table with hex codes and roles
+5. Methodology references — which techniques from SKILL.md were applied
+6. Iteration suggestions — what to tweak for next generation
